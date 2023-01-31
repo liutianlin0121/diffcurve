@@ -1,9 +1,0 @@
-README.md
-setup.py
-diffcurve/plot_utils.py
-diffcurve/utils.py
-diffcurve.egg-info/PKG-INFO
-diffcurve.egg-info/SOURCES.txt
-diffcurve.egg-info/dependency_links.txt
-diffcurve.egg-info/not-zip-safe
-diffcurve.egg-info/top_level.txt
