@@ -1,0 +1,23 @@
+.ipynb_checkpoints/
+*.pyc
+__pycache__/
+deprecated/
+.DS_Store
+*/.ipynb_checkpoints/*
+*/. DS_Store/*
+.db
+.owncloudsync.log
+.db-shm
+.db-wal
+.sync_5de6efbf0140.db-shm
+*.h5
+*.pth
+__pycache__/
+*.egg-info/
+.installed.cfg
+*.egg
+*.pyc
+.vscode/*
+**/diffcurve.egg-info
+__pycache__/
+
