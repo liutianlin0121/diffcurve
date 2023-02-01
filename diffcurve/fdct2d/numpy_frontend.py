@@ -1,9 +1,6 @@
 '''2D discrete curvelet transform in numpy'''
-
 import numpy as np
 from numpy import fft
-from jax.config import config
-config.update("jax_enable_x64", True)
 
 
 def perform_fft2(spatial_input: np.ndarray):
@@ -35,10 +32,8 @@ def numpy_fdct_2d(img, curvelet_system):
         coeffs: curvelet coefficients
     """
     x_freq = perform_fft2(img)
-    coeffs = np.zeros_like(curvelet_system)
-    for j in range(coeffs.shape[0]):
-        coeffs[j, ...] = perform_ifft2(
-            x_freq * np.conj(curvelet_system[j, ...]))
+    conj_curvelet_system = np.conj(curvelet_system)
+    coeffs = perform_ifft2(x_freq * conj_curvelet_system)
     return coeffs
 
 
@@ -54,9 +49,10 @@ def numpy_ifdct_2d(coeffs, curvelet_system, curvelet_support_size):
         decom: image decomposed in different scales and orientation in the
         curvelet basis.
     """
-    decomp = np.zeros_like(coeffs)
-    for j in range(coeffs.shape[0]):
-        decomp[j, ...] = perform_ifft2(
-            perform_fft2(coeffs[j, ...]) * curvelet_system[j, ...]
-            ) * curvelet_support_size[j]
+
+    coeffs_freq = perform_fft2(coeffs)
+
+    decomp = perform_ifft2(
+        coeffs_freq * curvelet_system)\
+        * np.expand_dims(curvelet_support_size, [1, 2])
     return decomp

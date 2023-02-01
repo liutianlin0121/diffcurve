@@ -12,15 +12,17 @@ Diffcurve is a Python library that integrates the curvelet transform into differ
 
 Diffcurve consists of two steps:
 
-1. Generating the curvelet waveforms for images at a prescribed size. This step is not differentiable and requires MATLAB to be installed on the device, as it calls a few MATLAB functions from Python using the [MATLAB Engine API for Python](https://www.mathworks.com/help/matlab/matlab-engine-for-python.html). 
+1. Generating the curvelet waveforms for images at a prescribed size. This step  requires MATLAB to be installed on your device, as it calls a few MATLAB functions from Python using the [MATLAB Engine API for Python](https://www.mathworks.com/help/matlab/matlab-engine-for-python.html).
 
-2. Using the curvelet waveforms to perform the curvelet transform. The same set of curvelet waveforms can be re-used for all images of the same size. This step is differentiable and supports deep learning APIs. It can be run on GPUs and TPUs.
+2. Using the curvelet waveforms to perform the curvelet transform. The same set of curvelet waveforms can be used for all images of the same size. This step is differentiable and supports deep learning APIs. It can be run on GPUs and TPUs.
 
 
 To view a complete demonstration of Diffcurve, please refer to the Jupyter notebooks located in the `diffcurve/diffcurve/notebooks/` directory. In what follows, we provide a brief overview of the main steps.
 
 
-## Step 1: Generate a curvelet system, which are curvelet waveforms in the Fourier domain
+## Step 1: Generate a curvelet system
+
+We refer a curvelet system as a set of curvelet waveforms of different scales and orientations in the Fourier domain.
 
 ```python
 dct_kwargs = {

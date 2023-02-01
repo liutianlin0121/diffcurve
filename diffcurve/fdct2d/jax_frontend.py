@@ -1,5 +1,4 @@
 '''2D discrete curvelet transform in jax'''
-import jax
 import jax.numpy as jnp
 from jax.config import config
 config.update("jax_enable_x64", True)
@@ -23,9 +22,6 @@ def jax_perform_ifft2(frequency_input):
                                           norm='ortho'))
 
 
-vmap_jax_perform_ifft2 = jax.vmap(jax_perform_ifft2)
-
-
 def jax_fdct_2d(img, curvelet_system):
     """2d fast discrete curvelet in jax
 
@@ -38,7 +34,7 @@ def jax_fdct_2d(img, curvelet_system):
     """
     x_freq = jax_perform_fft2(img)
     conj_curvelet_system = jnp.conj(curvelet_system)
-    coeffs = vmap_jax_perform_ifft2(x_freq * conj_curvelet_system)
+    coeffs = jax_perform_ifft2(x_freq * conj_curvelet_system)
     return coeffs
 
 
@@ -54,9 +50,9 @@ def jax_ifdct_2d(coeffs, curvelet_system, curvelet_support_size):
         decom: image decomposed in different scales and orientation in the
         curvelet basis.
     """
-    coeffs_freq = jax.vmap(jax_perform_fft2)(coeffs)
+    coeffs_freq = jax_perform_fft2(coeffs)
 
-    decomp = jax.vmap(jax_perform_ifft2)(
+    decomp = jax_perform_ifft2(
         coeffs_freq * curvelet_system)\
         * jnp.expand_dims(curvelet_support_size, [1, 2])
     return decomp

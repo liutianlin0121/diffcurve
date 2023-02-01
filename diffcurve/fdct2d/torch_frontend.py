@@ -1,6 +1,5 @@
 '''2D discrete curvelet transform in torch'''
 import torch
-import functorch
 
 
 def torch_perform_fft2(spatial_input):
@@ -22,10 +21,6 @@ def torch_perform_ifft2(frequency_input):
         frequency_input), norm='ortho'))
 
 
-vmap_torch_perform_ifft2 = functorch.vmap(torch_perform_ifft2)
-vmap_torch_perform_fft2 = functorch.vmap(torch_perform_fft2)
-
-
 def torch_fdct_2d(img, curvelet_system):
     """2d fast discrete curvelet in torch
 
@@ -37,9 +32,10 @@ def torch_fdct_2d(img, curvelet_system):
         coeffs: curvelet coefficients
     """
     x_freq = torch_perform_fft2(img)
-    conj_curvelet_system = torch.conj(  # pylint:disable=no-member
-        curvelet_system)
-    coeffs = vmap_torch_perform_ifft2(x_freq * conj_curvelet_system)
+    conj_curvelet_system = torch.conj(curvelet_system)
+    coeffs = torch_perform_ifft2(x_freq * conj_curvelet_system)
+    coeffs = torch_perform_ifft2(x_freq * conj_curvelet_system)
+
     return coeffs
 
 
@@ -55,8 +51,8 @@ def torch_ifdct_2d(coeffs, curvelet_system, curvelet_support_size):
         decom: image decomposed in different scales and orientation in the
         curvelet basis.
     """
-    coeffs_freq = vmap_torch_perform_fft2(coeffs)
+    coeffs_freq = torch_perform_fft2(coeffs)
     unsqueezed_support_size = curvelet_support_size[..., None, None]
-    decom = vmap_torch_perform_ifft2(
+    decom = torch_perform_ifft2(
         coeffs_freq * curvelet_system) * unsqueezed_support_size
     return decom
