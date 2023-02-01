@@ -1,7 +1,7 @@
 
 
 
-Diffcurve: curvelet transform in differentiable programming
+Diffcurve: differentiable curvelet transform
 =====================================
 
 
