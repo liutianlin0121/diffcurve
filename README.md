@@ -50,16 +50,16 @@ In PyTorch:
 from diffcurve.fdct2d.torch_frontend import torch_fdct_2d, torch_ifdct_2d
 
 # Forward curvelet transform. The input image lena_img
-# is of size (512, 512), which is consistent with the 
+# is of size (512, 512), which is consistent with the
 # shape of `curvelet_system`.
 torch_coeff = torch_fdct_2d(
     torch.from_numpy(lena_img),
-    torch.from_numpy(curvelet_system)) 
-                            
-# Inverse curvelet transform. The tensor `decomp` below is a weighted 
-# collection of curvelets that represent the Lena_img image at 
+    torch.from_numpy(curvelet_system))
+
+# Inverse curvelet transform. The tensor `decomp` below is a weighted
+# collection of curvelets that represent the Lena_img image at
 # different scales and orientations. By summing the array with
-# decomp.sum(0), we can reconstruct the Lena_img image 
+# decomp.sum(0), we can reconstruct the Lena_img image
 # with high fidelity.
 torch_decomp = torch_ifdct_2d(torch_coeff,
     torch.from_numpy(curvelet_system),
@@ -80,14 +80,14 @@ In JAX:
 ```python
 from diffcurve.fdct2d.jax_frontend import jax_fdct_2d, jax_ifdct_2d
 
-# Forward curvelet transform. The input image lena_img is of size 
+# Forward curvelet transform. The input image lena_img is of size
 # (512, 512), which is consistent with the shape of `curvelet_system`.
 coeff = jax_fdct_2d(lena_img, curvelet_system)
 
-# Inverse curvelet transform. The tensor `decomp` below is a weighted 
-# collection of curvelets that represent the Lena_img image at 
+# Inverse curvelet transform. The tensor `decomp` below is a weighted
+# collection of curvelets that represent the Lena_img image at
 # different scales and orientations. By summing the array with
-# decomp.sum(0), we can reconstruct the Lena_img image 
+# decomp.sum(0), we can reconstruct the Lena_img image
 # with high fidelity.
 decomp = jax_ifdct_2d(coeff, curvelet_system,
                       curvelet_support_size )
