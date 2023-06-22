@@ -47,7 +47,9 @@ def get_curvelet_system(img_length: int, img_width: int, dct_kwargs):
 
             tmp = zero_coeffs
             tmp[scale_idx][wedge_idx][coord_vert][coord_horiz] = 1
-            out = np.array(eng.ifdct_wrapping(tmp))
+            out = np.array(eng.ifdct_wrapping(
+                tmp, float(dct_kwargs['is_real']),
+                float(img_length), float(img_width)))
             out = perform_fft2(out)
             all_scales_all_wedges_curvelet_coeffs.append(out)
             tmp[scale_idx][wedge_idx][coord_vert][coord_horiz] = 0
@@ -56,3 +58,4 @@ def get_curvelet_system(img_length: int, img_width: int, dct_kwargs):
         all_scales_all_wedges_curvelet_coeffs)
     curvelet_coeff_dim = np.array(curvelet_coeff_dim)
     return all_scales_all_wedges_curvelet_coeffs, curvelet_coeff_dim
+
