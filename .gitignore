@@ -20,4 +20,5 @@ __pycache__/
 .vscode/
 **/diffcurve.egg-info
 __pycache__/
-
+/save_curvelet_systems.ipynb
+/experimental
